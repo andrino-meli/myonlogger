@@ -1,0 +1,2 @@
+hexdump -v LOG_26.TXT -e '/1 "%02i " /1 "%02i " /1 "%02i \n"'
+hexdump -v LOG_3.TXT -e '/4 "%00i " /4 "%00i " "\n"'

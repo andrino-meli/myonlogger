@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]
+then
+	echo "usage: ./upload folder device"
+elif [ $# -eq 1 ]
+then
+	echo "assuming /dev/tyyUSB0"
+fi
+
+$HOME/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino14/bin/avrdude -C$HOME/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino14/etc/avrdude.conf -v -patmega328p -carduino -P${2:-"/dev/ttyUSB0"} -b115200 -D -Uflash:w:$1/$1.arduino.avr.uno.hex

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "Assuming device /dev/sdb1 and mountmoint /mnt/"
+echo "mounting..."
+
+mount /dev/sdb1 /mnt/
+
+if [[ -f /mnt/LOG_$1.bin ]]
+then
+	cp "/mnt/LOG_$1.bin" "/home/uardu/21_Myonen/data/LOG_$1.bin"
+	hexdump -v -e '/4 "%0i " /2 "%0i\n"' /mnt/LOG_$1.bin > /home/uardu/21_Myonen/data/LOG_$1.my
+	echo "/home/uardu/21_Myonen/data/LOG_$1.my written."
+	echo "/home/uardu/21_Myonen/data/LOG_$1.bin copied."
+elif [[ -z $1 ]]
+then
+	echo "specify the log-file to use"
+	ls "/mnt/"
+	
+else
+	echo "/mnt/LOG_$1.bin does not exist."
+fi
+
+echo "Ejecting device"
+eject /dev/sdb1
+echo "Done..."
