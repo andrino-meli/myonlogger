@@ -1,5 +1,12 @@
-#include <SD.h>
-#include <LiquidCrystal.h>
+//#include <avr/io.h>
+//#include <util/delay.h>
+#include "Arduino.h"
+#include "SD.h"
+#include "LiquidCrystal.h"
+
+#ifndef F_CPU
+	#define F_CPU 16000000UL //16MHz clock speed
+#endif
 
 //edit the next line to toggle debuging
 #define DEBUG
@@ -53,6 +60,11 @@
 //pin 28 is SCL for I2C and not used
 #define PADDLE2_PIN 19
 
+
+#define TERMINATE_PIN 12 //TODO remove
+bool shouldTerminate(){ return true;} //TODO remove
+
+
 //========================== globs =============================================
 volatile uint32_t counts = 0;
 volatile uint32_t paddle1_counts = 0;
@@ -101,8 +113,11 @@ ISR( INT1_vect ){
 	lcd_control++;
 }
 
+ISR( TIMER0_OVF_vect ) {
+	counts++;
+}
 //========================= setup ==============================================
-void setup()
+int main()
 {
 	//setup external interupts on pin 4 (D2)
 	DDRD &= ~(1 << DDD2); //set pin D2 as input (0)
@@ -256,6 +271,3 @@ void setup()
 		}
 	}
 }
-
-
-void loop(){}

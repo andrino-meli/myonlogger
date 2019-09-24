@@ -1,0 +1,1 @@
+../lib/core/HardwareSerial_private.h
